@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="kuro — small-batch iced lattes. Warm, tactile, calm." />
+  <title>kuro — Iced Latte</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,500,100,0;9..144,600,100,0&family=Manrope:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body data-theme="coffee">
+  <div class="site-shell">
+
+    <!-- Floating navigation -->
+    <header class="nav glass" id="topNav">
+      <a class="wordmark" href="#top" aria-label="kuro home">kuro</a>
+
+      <nav class="nav-tools" aria-label="Primary navigation">
+        <a href="#menu" class="nav-link">flavors</a>
+        <a href="#story" class="nav-link">info</a>
+        <button class="icon-btn" id="shuffleBtn" aria-label="Shuffle flavor">
+          <i data-lucide="shuffle"></i>
+        </button>
+        <button class="bag-btn" id="bagBtn" aria-label="Open bag">
+          <i data-lucide="shopping-bag"></i>
+          <span class="bag-count" id="bagCount">0</span>
+        </button>
+      </nav>
+
+      <div class="nav-actions">
+        <button class="theme-toggle" id="themeToggle" type="button">
+          <span class="theme-dot"></span>
+          <span id="themeLabel">midori</span>
+        </button>
+        <button class="icon-btn" id="motionBtn" aria-label="Pause motion" aria-pressed="false">
+          <i data-lucide="pause"></i>
+        </button>
+      </div>
+    </header>
+
+    <!-- Hero -->
+    <main id="top">
+      <section class="hero-track" id="heroTrack">
+        <div class="hero-stage">
+          <div class="hero-glow"></div>
+
+          <div class="hero-wheel" id="heroWheel" aria-label="Choose a flavor">
+            <!-- populated by JS -->
+          </div>
+
+          <div class="hero-content">
+            <p class="eyebrow hero-eyebrow">small batch · slow pour</p>
+            <h1>Choose your<br><em>iced latte</em></h1>
+
+            <div class="hero-cup-wrap">
+              <div class="cup-shadow"></div>
+              <div class="cup">
+                <div class="cup-lid"></div>
+                <div class="cup-ice ice-a"></div>
+                <div class="cup-ice ice-b"></div>
+                <div class="cup-ice ice-c"></div>
+                <div class="drink" id="drink"></div>
+                <div class="crema"></div>
+                <div class="cup-label" id="cupLabel">KURO</div>
+              </div>
+            </div>
+
+            <div class="hero-selection">
+              <div class="flavor-kicker">your pour</div>
+              <h2 id="heroFlavor">Black Sesame</h2>
+              <p id="heroFlavorDesc">Nutty espresso, toasted sesame, cold milk.</p>
+              <button class="price-chip" id="heroAdd">
+                <span id="heroPrice">$7</span>
+                <span>add to bag</span>
+                <i data-lucide="plus"></i>
+              </button>
+            </div>
+          </div>
+
+          <div class="hero-counter">
+            <span id="heroCounter">01 / 06</span>
+            <div class="progress-dots" id="progressDots"></div>
+          </div>
+
+          <div class="scroll-cue">
+            <span>scroll to pour</span>
+            <i data-lucide="arrow-down"></i>
+          </div>
+        </div>
+      </section>
+
+      <!-- Marquee -->
+      <section class="marquee-band" aria-label="Flavors">
+        <div class="marquee-track" id="marqueeTrack"></div>
+      </section>
+
+      <!-- Story -->
+      <section class="section cream-section" id="story">
+        <div class="container story-grid reveal">
+          <div class="story-image-wrap">
+            <div class="story-image image-placeholder coffee-image">
+              <span>kuro / 01</span>
+            </div>
+            <div class="story-badge">slow<br>small<br>batch</div>
+          </div>
+
+          <div class="story-copy">
+            <p class="eyebrow">our story</p>
+            <h2>Cold coffee,<br><em>made warm.</em></h2>
+            <p class="lead">
+              kuro began with one simple idea: an iced latte can be quiet,
+              considered and deeply expressive.
+            </p>
+            <p>
+              We roast in small batches, rest our coffee until it opens up,
+              then pull every shot with intention. Milk, ice and flavor are
+              added slowly — never rushed.
+            </p>
+
+            <div class="stats">
+              <div>
+                <strong>48h</strong>
+                <span>rested roast</span>
+              </div>
+              <div>
+                <strong>02°</strong>
+                <span>cold brew temp</span>
+              </div>
+              <div>
+                <strong>06</strong>
+                <span>house flavors</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Menu -->
+      <section class="section dark-section" id="menu">
+        <div class="container">
+          <div class="section-heading reveal">
+            <div>
+              <p class="eyebrow">the menu</p>
+              <h2>Pick your <em>pour.</em></h2>
+            </div>
+            <button class="outline-btn" id="menuShuffle">
+              shuffle flavor <i data-lucide="shuffle"></i>
+            </button>
+          </div>
+
+          <div class="menu-grid" id="menuGrid"></div>
+
+          <div class="info-strip reveal">
+            <div><span>01</span><strong>small batch</strong><p>Roasted in quiet, considered lots.</p></div>
+            <div><span>02</span><strong>whole milk</strong><p>Silky texture, never too sweet.</p></div>
+            <div><span>03</span><strong>slow ice</strong><p>Cold enough to stay balanced.</p></div>
+            <div><span>04</span><strong>zero rush</strong><p>Made one cup at a time.</p></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- How it's made -->
+      <section class="section cream-section" id="made">
+        <div class="container">
+          <div class="section-heading single reveal">
+            <div>
+              <p class="eyebrow">how it's made</p>
+              <h2>Four quiet <em>moves.</em></h2>
+            </div>
+          </div>
+
+          <div class="steps-grid">
+            <article class="step reveal">
+              <div class="step-image image-placeholder">
+                <span>ROAST</span>
+                <b>01</b>
+              </div>
+              <h3>Roast</h3>
+              <p>Deep, sweet and developed for milk.</p>
+            </article>
+            <article class="step reveal">
+              <div class="step-image image-placeholder">
+                <span>REST</span>
+                <b>02</b>
+              </div>
+              <h3>Rest</h3>
+              <p>We let the coffee settle before the first pull.</p>
+            </article>
+            <article class="step reveal">
+              <div class="step-image image-placeholder">
+                <span>PULL</span>
+                <b>03</b>
+              </div>
+              <h3>Pull</h3>
+              <p>Short espresso, soft crema, clean finish.</p>
+            </article>
+            <article class="step reveal">
+              <div class="step-image image-placeholder">
+                <span>POUR</span>
+                <b>04</b>
+              </div>
+              <h3>Pour</h3>
+              <p>Cold milk, slow ice and one final flavor.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- Origins -->
+      <section class="section dark-section origins" id="origins">
+        <div class="topo"></div>
+        <div class="container">
+          <div class="section-heading single reveal">
+            <div>
+              <p class="eyebrow">origins</p>
+              <h2>Where the <em>depth</em> begins.</h2>
+            </div>
+          </div>
+
+          <div class="origin-grid">
+            <article class="origin-card reveal">
+              <p class="eyebrow">coffee</p>
+              <h3>Huila,<br>Colombia</h3>
+              <div class="round-icon"><i data-lucide="mountain"></i></div>
+              <p class="origin-text">Cacao, panela and red fruit from high-altitude lots.</p>
+              <div class="specs">
+                <div><span>altitude</span><strong>1,700m</strong></div>
+                <div><span>process</span><strong>washed</strong></div>
+                <div><span>note</span><strong>cacao</strong></div>
+              </div>
+            </article>
+
+            <article class="origin-card reveal">
+              <p class="eyebrow">matcha</p>
+              <h3>Uji,<br>Kyoto</h3>
+              <div class="round-icon"><i data-lucide="leaf"></i></div>
+              <p class="origin-text">Ceremonial shade-grown matcha with a clean umami finish.</p>
+              <div class="specs">
+                <div><span>shade</span><strong>28 days</strong></div>
+                <div><span>grade</span><strong>ceremonial</strong></div>
+                <div><span>note</span><strong>umami</strong></div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- Join -->
+      <section class="section dark-section join-section">
+        <div class="container">
+          <div class="join-panel reveal">
+            <div class="join-copy">
+              <p class="eyebrow">join the list</p>
+              <h2>Good things<br><em>pour slowly.</em></h2>
+              <p>New drops, quiet menus and the occasional reason to leave the house.</p>
+
+              <form id="joinForm" class="join-form">
+                <label class="sr-only" for="email">Email address</label>
+                <input id="email" type="email" placeholder="your@email.com" required>
+                <button type="submit">join <i data-lucide="arrow-up-right"></i></button>
+              </form>
+              <div class="success-card" id="successCard">
+                <i data-lucide="check"></i>
+                <span>You're on the list.</span>
+              </div>
+            </div>
+
+            <div class="floating-ingredients">
+              <div class="float-tile tile-one">☕</div>
+              <div class="float-tile tile-two">🌿</div>
+              <div class="float-tile tile-three">🧊</div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-main">
+          <div>
+            <a class="footer-wordmark" href="#top">kuro</a>
+            <p>small-batch iced lattes<br>for slow days.</p>
+          </div>
+          <div>
+            <p class="footer-label">explore</p>
+            <a href="#menu">flavors</a>
+            <a href="#story">our story</a>
+            <a href="#made">how it's made</a>
+          </div>
+          <div>
+            <p class="footer-label">contact</p>
+            <a href="mailto:hello@kuro.cafe">hello@kuro.cafe</a>
+            <a href="#top">instagram</a>
+            <a href="#top">find a pour</a>
+          </div>
+        </div>
+
+        <div class="footer-bottom">
+          <span>© 2026 kuro coffee</span>
+          <a href="#top">back to top ↑</a>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Bag drawer -->
+    <aside class="bag-drawer" id="bagDrawer" aria-hidden="true">
+      <div class="drawer-head">
+        <div>
+          <p class="eyebrow">your bag</p>
+          <h2>Ready to <em>pour?</em></h2>
+        </div>
+        <button class="icon-btn" id="closeBag" aria-label="Close bag">
+          <i data-lucide="x"></i>
+        </button>
+      </div>
+      <div id="bagItems" class="bag-items"></div>
+      <div class="bag-total">
+        <span>total</span>
+        <strong id="bagTotal">$0</strong>
+      </div>
+      <button class="checkout-btn">checkout <i data-lucide="arrow-right"></i></button>
+    </aside>
+    <div class="drawer-backdrop" id="drawerBackdrop"></div>
+
+  </div>
+
+  <script src="script.js"></script>
+  <script>lucide.createIcons();</script>
+</body>
+</html>
