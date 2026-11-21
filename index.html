@@ -1,338 +1,205 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="coffee">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="kuro — small-batch iced lattes. Warm, tactile, calm." />
-  <title>kuro — Iced Latte</title>
-
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>kuro — small-batch iced lattes</title>
+  <meta name="description" content="kuro makes small-batch iced lattes: eighteen-hour cold-steeped coffee and stone-milled matcha, poured slow. Choose yours.">
+  <meta name="theme-color" content="#120B08">
+  <meta property="og:title" content="kuro — small-batch iced lattes">
+  <meta property="og:description" content="Cold-steeped coffee and stone-milled matcha, poured slow.">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%23120B08'/%3E%3Ccircle cx='16' cy='16' r='6.5' fill='%23D9A066'/%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,500,100,0;9..144,600,100,0&family=Manrope:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
-
-  <script src="https://unpkg.com/lucide@latest"></script>
-  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,300..700,0..100,0..1&family=Geist+Mono:wght@400;500&family=Manrope:wght@300..800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
 </head>
+<body>
+<a class="skip" href="#menu">Skip to the menu</a>
 
-<body data-theme="coffee">
-  <div class="site-shell">
+<!-- ───────────── Floating navigation ───────────── -->
+<header class="site-header" id="siteHeader">
+  <a class="wordmark" href="#top" data-scroll-top aria-label="kuro — back to the top">kuro</a>
 
-    <!-- Floating navigation -->
-    <header class="nav glass" id="topNav">
-      <a class="wordmark" href="#top" aria-label="kuro home">kuro</a>
+  <nav class="dock glass" aria-label="Primary">
+    <button type="button" class="dock-btn" data-go="menu"><span data-icon="coffee"></span><span class="dock-label">Flavors</span></button>
+    <button type="button" class="dock-btn" data-go="story"><span data-icon="info"></span><span class="dock-label">Info</span></button>
+    <button type="button" class="dock-btn" data-action="shuffle" aria-label="Shuffle flavor"><span data-icon="shuffle"></span><span class="dock-label">Shuffle</span></button>
+    <button type="button" class="dock-btn dock-bag" id="bagBtn" aria-label="Open bag, 0 items" aria-expanded="false" aria-controls="bagPanel">
+      <span data-icon="bag"></span><span class="badge mono" id="bagCount" aria-hidden="true">0</span>
+    </button>
+  </nav>
 
-      <nav class="nav-tools" aria-label="Primary navigation">
-        <a href="#menu" class="nav-link">flavors</a>
-        <a href="#story" class="nav-link">info</a>
-        <button class="icon-btn" id="shuffleBtn" aria-label="Shuffle flavor">
-          <i data-lucide="shuffle"></i>
-        </button>
-        <button class="bag-btn" id="bagBtn" aria-label="Open bag">
-          <i data-lucide="shopping-bag"></i>
-          <span class="bag-count" id="bagCount">0</span>
-        </button>
-      </nav>
-
-      <div class="nav-actions">
-        <button class="theme-toggle" id="themeToggle" type="button">
-          <span class="theme-dot"></span>
-          <span id="themeLabel">midori</span>
-        </button>
-        <button class="icon-btn" id="motionBtn" aria-label="Pause motion" aria-pressed="false">
-          <i data-lucide="pause"></i>
-        </button>
-      </div>
-    </header>
-
-    <!-- Hero -->
-    <main id="top">
-      <section class="hero-track" id="heroTrack">
-        <div class="hero-stage">
-          <div class="hero-glow"></div>
-
-          <div class="hero-wheel" id="heroWheel" aria-label="Choose a flavor">
-            <!-- populated by JS -->
-          </div>
-
-          <div class="hero-content">
-            <p class="eyebrow hero-eyebrow">small batch · slow pour</p>
-            <h1>Choose your<br><em>iced latte</em></h1>
-
-            <div class="hero-cup-wrap">
-              <div class="cup-shadow"></div>
-              <div class="cup">
-                <div class="cup-lid"></div>
-                <div class="cup-ice ice-a"></div>
-                <div class="cup-ice ice-b"></div>
-                <div class="cup-ice ice-c"></div>
-                <div class="drink" id="drink"></div>
-                <div class="crema"></div>
-                <div class="cup-label" id="cupLabel">KURO</div>
-              </div>
-            </div>
-
-            <div class="hero-selection">
-              <div class="flavor-kicker">your pour</div>
-              <h2 id="heroFlavor">Black Sesame</h2>
-              <p id="heroFlavorDesc">Nutty espresso, toasted sesame, cold milk.</p>
-              <button class="price-chip" id="heroAdd">
-                <span id="heroPrice">$7</span>
-                <span>add to bag</span>
-                <i data-lucide="plus"></i>
-              </button>
-            </div>
-          </div>
-
-          <div class="hero-counter">
-            <span id="heroCounter">01 / 06</span>
-            <div class="progress-dots" id="progressDots"></div>
-          </div>
-
-          <div class="scroll-cue">
-            <span>scroll to pour</span>
-            <i data-lucide="arrow-down"></i>
-          </div>
-        </div>
-      </section>
-
-      <!-- Marquee -->
-      <section class="marquee-band" aria-label="Flavors">
-        <div class="marquee-track" id="marqueeTrack"></div>
-      </section>
-
-      <!-- Story -->
-      <section class="section cream-section" id="story">
-        <div class="container story-grid reveal">
-          <div class="story-image-wrap">
-            <div class="story-image image-placeholder coffee-image">
-              <span>kuro / 01</span>
-            </div>
-            <div class="story-badge">slow<br>small<br>batch</div>
-          </div>
-
-          <div class="story-copy">
-            <p class="eyebrow">our story</p>
-            <h2>Cold coffee,<br><em>made warm.</em></h2>
-            <p class="lead">
-              kuro began with one simple idea: an iced latte can be quiet,
-              considered and deeply expressive.
-            </p>
-            <p>
-              We roast in small batches, rest our coffee until it opens up,
-              then pull every shot with intention. Milk, ice and flavor are
-              added slowly — never rushed.
-            </p>
-
-            <div class="stats">
-              <div>
-                <strong>48h</strong>
-                <span>rested roast</span>
-              </div>
-              <div>
-                <strong>02°</strong>
-                <span>cold brew temp</span>
-              </div>
-              <div>
-                <strong>06</strong>
-                <span>house flavors</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- Menu -->
-      <section class="section dark-section" id="menu">
-        <div class="container">
-          <div class="section-heading reveal">
-            <div>
-              <p class="eyebrow">the menu</p>
-              <h2>Pick your <em>pour.</em></h2>
-            </div>
-            <button class="outline-btn" id="menuShuffle">
-              shuffle flavor <i data-lucide="shuffle"></i>
-            </button>
-          </div>
-
-          <div class="menu-grid" id="menuGrid"></div>
-
-          <div class="info-strip reveal">
-            <div><span>01</span><strong>small batch</strong><p>Roasted in quiet, considered lots.</p></div>
-            <div><span>02</span><strong>whole milk</strong><p>Silky texture, never too sweet.</p></div>
-            <div><span>03</span><strong>slow ice</strong><p>Cold enough to stay balanced.</p></div>
-            <div><span>04</span><strong>zero rush</strong><p>Made one cup at a time.</p></div>
-          </div>
-        </div>
-      </section>
-
-      <!-- How it's made -->
-      <section class="section cream-section" id="made">
-        <div class="container">
-          <div class="section-heading single reveal">
-            <div>
-              <p class="eyebrow">how it's made</p>
-              <h2>Four quiet <em>moves.</em></h2>
-            </div>
-          </div>
-
-          <div class="steps-grid">
-            <article class="step reveal">
-              <div class="step-image image-placeholder">
-                <span>ROAST</span>
-                <b>01</b>
-              </div>
-              <h3>Roast</h3>
-              <p>Deep, sweet and developed for milk.</p>
-            </article>
-            <article class="step reveal">
-              <div class="step-image image-placeholder">
-                <span>REST</span>
-                <b>02</b>
-              </div>
-              <h3>Rest</h3>
-              <p>We let the coffee settle before the first pull.</p>
-            </article>
-            <article class="step reveal">
-              <div class="step-image image-placeholder">
-                <span>PULL</span>
-                <b>03</b>
-              </div>
-              <h3>Pull</h3>
-              <p>Short espresso, soft crema, clean finish.</p>
-            </article>
-            <article class="step reveal">
-              <div class="step-image image-placeholder">
-                <span>POUR</span>
-                <b>04</b>
-              </div>
-              <h3>Pour</h3>
-              <p>Cold milk, slow ice and one final flavor.</p>
-            </article>
-          </div>
-        </div>
-      </section>
-
-      <!-- Origins -->
-      <section class="section dark-section origins" id="origins">
-        <div class="topo"></div>
-        <div class="container">
-          <div class="section-heading single reveal">
-            <div>
-              <p class="eyebrow">origins</p>
-              <h2>Where the <em>depth</em> begins.</h2>
-            </div>
-          </div>
-
-          <div class="origin-grid">
-            <article class="origin-card reveal">
-              <p class="eyebrow">coffee</p>
-              <h3>Huila,<br>Colombia</h3>
-              <div class="round-icon"><i data-lucide="mountain"></i></div>
-              <p class="origin-text">Cacao, panela and red fruit from high-altitude lots.</p>
-              <div class="specs">
-                <div><span>altitude</span><strong>1,700m</strong></div>
-                <div><span>process</span><strong>washed</strong></div>
-                <div><span>note</span><strong>cacao</strong></div>
-              </div>
-            </article>
-
-            <article class="origin-card reveal">
-              <p class="eyebrow">matcha</p>
-              <h3>Uji,<br>Kyoto</h3>
-              <div class="round-icon"><i data-lucide="leaf"></i></div>
-              <p class="origin-text">Ceremonial shade-grown matcha with a clean umami finish.</p>
-              <div class="specs">
-                <div><span>shade</span><strong>28 days</strong></div>
-                <div><span>grade</span><strong>ceremonial</strong></div>
-                <div><span>note</span><strong>umami</strong></div>
-              </div>
-            </article>
-          </div>
-        </div>
-      </section>
-
-      <!-- Join -->
-      <section class="section dark-section join-section">
-        <div class="container">
-          <div class="join-panel reveal">
-            <div class="join-copy">
-              <p class="eyebrow">join the list</p>
-              <h2>Good things<br><em>pour slowly.</em></h2>
-              <p>New drops, quiet menus and the occasional reason to leave the house.</p>
-
-              <form id="joinForm" class="join-form">
-                <label class="sr-only" for="email">Email address</label>
-                <input id="email" type="email" placeholder="your@email.com" required>
-                <button type="submit">join <i data-lucide="arrow-up-right"></i></button>
-              </form>
-              <div class="success-card" id="successCard">
-                <i data-lucide="check"></i>
-                <span>You're on the list.</span>
-              </div>
-            </div>
-
-            <div class="floating-ingredients">
-              <div class="float-tile tile-one">☕</div>
-              <div class="float-tile tile-two">🌿</div>
-              <div class="float-tile tile-three">🧊</div>
-            </div>
-          </div>
-        </div>
-      </section>
-    </main>
-
-    <!-- Footer -->
-    <footer class="footer">
-      <div class="container">
-        <div class="footer-main">
-          <div>
-            <a class="footer-wordmark" href="#top">kuro</a>
-            <p>small-batch iced lattes<br>for slow days.</p>
-          </div>
-          <div>
-            <p class="footer-label">explore</p>
-            <a href="#menu">flavors</a>
-            <a href="#story">our story</a>
-            <a href="#made">how it's made</a>
-          </div>
-          <div>
-            <p class="footer-label">contact</p>
-            <a href="mailto:hello@kuro.cafe">hello@kuro.cafe</a>
-            <a href="#top">instagram</a>
-            <a href="#top">find a pour</a>
-          </div>
-        </div>
-
-        <div class="footer-bottom">
-          <span>© 2026 kuro coffee</span>
-          <a href="#top">back to top ↑</a>
-        </div>
-      </div>
-    </footer>
-
-    <!-- Bag drawer -->
-    <aside class="bag-drawer" id="bagDrawer" aria-hidden="true">
-      <div class="drawer-head">
-        <div>
-          <p class="eyebrow">your bag</p>
-          <h2>Ready to <em>pour?</em></h2>
-        </div>
-        <button class="icon-btn" id="closeBag" aria-label="Close bag">
-          <i data-lucide="x"></i>
-        </button>
-      </div>
-      <div id="bagItems" class="bag-items"></div>
-      <div class="bag-total">
-        <span>total</span>
-        <strong id="bagTotal">$0</strong>
-      </div>
-      <button class="checkout-btn">checkout <i data-lucide="arrow-right"></i></button>
-    </aside>
-    <div class="drawer-backdrop" id="drawerBackdrop"></div>
-
+  <div class="header-right">
+    <div class="theme-switch glass" id="themeSwitch" role="group" aria-label="Choose a menu">
+      <span class="ts-ind" aria-hidden="true"></span>
+      <button type="button" data-theme-btn="coffee" aria-pressed="true">Coffee</button>
+      <button type="button" data-theme-btn="matcha" aria-pressed="false">Matcha</button>
+    </div>
+    <button type="button" class="icon-btn glass" id="motionBtn" aria-pressed="false" aria-label="Pause motion"><span data-icon="pause" data-icon-size="16"></span></button>
   </div>
+</header>
 
-  <script src="script.js"></script>
-  <script>lucide.createIcons();</script>
+<div class="bag-panel glass" id="bagPanel" role="dialog" aria-label="Your bag" hidden>
+  <div class="bag-head"><span class="label">Your bag</span><button type="button" class="link-btn" id="bagClear">Clear</button></div>
+  <ul class="bag-list" id="bagList"></ul>
+  <div class="bag-foot"><span class="label">Total</span><strong class="mono" id="bagTotal">$0</strong></div>
+</div>
+<p class="sr-only" id="live" aria-live="polite"></p>
+
+<main id="top">
+
+  <!-- ───────────── 1 · Hero ───────────── -->
+  <section class="hero" id="hero" aria-labelledby="heroTitle">
+    <div class="hero-track" id="heroTrack">
+      <div class="hero-stage" id="stage" role="group" aria-roledescription="carousel" aria-label="Flavors — use the arrow keys, drag, scroll or tap a tile">
+        <div class="stage-bg" aria-hidden="true"></div>
+
+        <h1 class="hero-title" id="heroTitle" data-split data-copy="heroTitle"></h1>
+
+        <div class="cup-wrap" aria-hidden="true"><div class="cup" id="cup"></div></div>
+        <div class="wheel" id="wheel"></div>
+
+        <div class="hero-meta">
+          <p class="flavor-name" id="flavorName"></p>
+          <button type="button" class="chip glass" id="heroAdd">
+            <span class="chip-label"><span class="chip-add">Add to bag</span><span class="chip-done"><span data-icon="check" data-icon-size="16"></span>Added</span></span>
+            <span class="chip-price mono" id="heroPrice"></span>
+          </button>
+        </div>
+
+        <div class="hero-controls">
+          <span class="counter mono" id="counter" aria-hidden="true">01 / 06</span>
+          <div class="dots" id="dots"></div>
+        </div>
+        <button type="button" class="scroll-cue" data-go="story" aria-label="Scroll to our story"><span data-icon="chevronDown"></span></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ───────────── 2 · Marquee ───────────── -->
+  <section class="marquee" aria-hidden="true"><div class="marquee-track" id="marquee"></div></section>
+
+  <!-- ───────────── 3 · Our story ───────────── -->
+  <section class="section sect-cream story" id="story" aria-labelledby="storyTitle">
+    <div class="container story-grid">
+      <figure class="story-fig" data-reveal>
+        <div class="photo"><div class="photo-in"><img id="storyImg" alt="A glass of iced latte on a café table in window light" width="800" height="1000" loading="lazy" decoding="async"></div></div>
+        <figcaption class="story-badge"><span data-icon="sparkle" data-icon-size="16"></span><span id="storyBadge"></span></figcaption>
+      </figure>
+      <div class="story-copy">
+        <p class="eyebrow" data-reveal data-copy="storyEyebrow"></p>
+        <h2 class="section-title" id="storyTitle" data-split data-copy="storyTitle"></h2>
+        <div class="story-text" id="storyText"></div>
+        <dl class="stats" id="stats"></dl>
+        <hr class="rule" data-reveal>
+      </div>
+    </div>
+  </section>
+
+  <!-- ───────────── 4 · Menu ───────────── -->
+  <section class="section menu" id="menu" aria-labelledby="menuTitle">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow" data-reveal data-copy="menuEyebrow"></p>
+          <h2 class="section-title" id="menuTitle" data-split data-copy="menuTitle"></h2>
+        </div>
+        <button type="button" class="btn btn-outline" id="orderBtn" data-reveal><span data-copy="menuCta"></span><span data-icon="arrowUpRight" data-icon-size="16"></span></button>
+      </div>
+      <div class="cards" id="cards"></div>
+      <ul class="info" id="info" data-reveal></ul>
+    </div>
+  </section>
+
+  <!-- ───────────── 5 · How it’s made ───────────── -->
+  <section class="section sect-cream how" id="how" aria-labelledby="howTitle">
+    <div class="container">
+      <p class="eyebrow" data-reveal data-copy="howEyebrow"></p>
+      <h2 class="section-title" id="howTitle" data-split data-copy="howTitle"></h2>
+      <div class="steps" id="steps"></div>
+    </div>
+  </section>
+
+  <!-- ───────────── 6 · Origins ───────────── -->
+  <section class="section origins" id="origins" aria-labelledby="originsTitle">
+    <div class="topo-wrap" id="topo" aria-hidden="true"></div>
+    <div class="container">
+      <p class="eyebrow" data-reveal data-copy="originsEyebrow"></p>
+      <h2 class="section-title" id="originsTitle" data-split data-copy="originsTitle"></h2>
+      <div class="origin-grid" id="originGrid"></div>
+    </div>
+  </section>
+
+  <!-- ───────────── 7 · Join the list ───────────── -->
+  <section class="join" id="join" aria-labelledby="joinTitle">
+    <div class="container">
+      <div class="join-panel" data-reveal>
+        <div class="join-copy">
+          <h2 class="section-title" id="joinTitle" data-split data-copy="joinTitle"></h2>
+          <p class="join-text" data-copy="joinText"></p>
+          <div class="join-swap">
+            <form class="join-form" id="joinForm" novalidate>
+              <label class="sr-only" for="email">Email address</label>
+              <input id="email" name="email" type="email" inputmode="email" autocomplete="email" placeholder="Your email" required>
+              <button type="submit" class="btn btn-espresso">Join the list</button>
+              <p class="form-msg" id="joinMsg" role="alert"></p>
+            </form>
+            <div class="join-ok" id="joinOk" role="status" hidden>
+              <span class="ok-ic"><span data-icon="check" data-icon-size="20" data-icon-sw="2"></span></span>
+              <div><strong class="ok-title" data-copy="joinOkTitle"></strong><p class="ok-text" data-copy="joinOkText"></p></div>
+            </div>
+          </div>
+        </div>
+        <div class="join-art" id="joinArt" aria-hidden="true"></div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ───────────── 8 · Footer ───────────── -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-main">
+      <div class="footer-brand">
+        <p class="footer-mark" aria-hidden="true">kuro</p>
+        <p class="footer-tag" data-copy="tagline"></p>
+      </div>
+      <nav class="footer-col" aria-label="Explore">
+        <p class="label">Explore</p>
+        <ul>
+          <li><a href="#menu" data-go="menu">Flavors</a></li>
+          <li><a href="#story" data-go="story">Our story</a></li>
+          <li><a href="#how" data-go="how">How it’s made</a></li>
+          <li><a href="#origins" data-go="origins">Origins</a></li>
+          <li><a href="#join" data-go="join">Join the list</a></li>
+        </ul>
+      </nav>
+      <div class="footer-col">
+        <p class="label">Contact</p>
+        <ul>
+          <li><a href="mailto:hello@kuro.coffee"><span data-icon="mail" data-icon-size="16"></span>hello@kuro.coffee</a></li>
+          <li><span class="plain"><span data-icon="mapPin" data-icon-size="16"></span>21 Mercer Lane, Portland</span></li>
+          <li><a href="https://instagram.com" rel="noopener" target="_blank"><span data-icon="instagram" data-icon-size="16"></span>@kuro.coffee</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <hr>
+      <div class="footer-row">
+        <p>© <span id="year">2026</span> kuro coffee co. All rights reserved.</p>
+        <button type="button" class="back-top" data-scroll-top>Back to top <span data-icon="arrowUp" data-icon-size="16"></span></button>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<noscript><p style="position:fixed;inset:auto 16px 16px;padding:14px 18px;background:#24160e;color:#f6eee3;border-radius:14px;font:14px sans-serif">kuro works best with JavaScript turned on.</p></noscript>
+
+<script src="js/data.js"></script>
+<script src="js/art.js"></script>
+<script src="js/main.js"></script>
 </body>
 </html>
